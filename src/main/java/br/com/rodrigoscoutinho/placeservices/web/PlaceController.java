@@ -1,7 +1,8 @@
 package br.com.rodrigoscoutinho.placeservices.web;
 
 
-import br.com.rodrigoscoutinho.placeservices.domain.Place;
+import br.com.rodrigoscoutinho.placeservices.api.PlaceRequest;
+import br.com.rodrigoscoutinho.placeservices.api.PlaceResponse;
 import br.com.rodrigoscoutinho.placeservices.domain.PlaceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class PlaceController {
     }
 
     @PostMapping
-    public ResponseEntity<Mono<Place>> create(@RequestBody Place place){
-        var createdPlace = placeService.create(place);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPlace);
+    public ResponseEntity<Mono<PlaceResponse>> create(@RequestBody PlaceRequest placeRequest){
+        var placeResponse = placeService.create(placeRequest).map(PlaceMapper::fromPlaceToResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(placeResponse);
     }
 }
