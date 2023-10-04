@@ -4,6 +4,7 @@ package br.com.rodrigoscoutinho.placeservices.web;
 import br.com.rodrigoscoutinho.placeservices.api.PlaceRequest;
 import br.com.rodrigoscoutinho.placeservices.api.PlaceResponse;
 import br.com.rodrigoscoutinho.placeservices.domain.PlaceService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class PlaceController {
     }
 
     @PostMapping
-    public ResponseEntity<Mono<PlaceResponse>> create(@RequestBody PlaceRequest placeRequest){
+    public ResponseEntity<Mono<PlaceResponse>> create(@Valid @RequestBody PlaceRequest placeRequest){
         var placeResponse = placeService.create(placeRequest).map(PlaceMapper::fromPlaceToResponse);
         return ResponseEntity.status(HttpStatus.CREATED).body(placeResponse);
     }

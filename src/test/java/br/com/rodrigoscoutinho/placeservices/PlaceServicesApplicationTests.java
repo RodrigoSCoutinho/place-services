@@ -32,4 +32,19 @@ class PlaceServicesApplicationTests {
 				.jsonPath("createdAt").isNotEmpty()
 				.jsonPath("updateAt").isNotEmpty();
 	}
+
+	@Test
+	public void testCreatePlaceFailure(){
+		var name = "";
+		var state = "";
+
+		webTestClient
+				.post()
+				.uri("/places")
+				.bodyValue(
+						new PlaceRequest(name, state)
+				)
+				.exchange()
+				.expectStatus().isBadRequest();
+	}
 }
